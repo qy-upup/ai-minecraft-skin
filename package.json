@@ -1,0 +1,16 @@
+{
+  "name": "ai-minecraft-skin",
+  "version": "1766.718.679",
+  "description": "A lightweight utility library for managing and generating dynamic links with tracking parameters.",
+  "main": "src/index.js",
+  "author": "SuperMaker",
+  "license": "MIT",
+  "homepage": "https://supermaker.ai/image/ai-minecraft-skin/",
+  "keywords": [
+    "link",
+    "tracking",
+    "utm",
+    "marketing",
+    "analytics"
+  ]
+}
