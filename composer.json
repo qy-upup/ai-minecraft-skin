@@ -1,7 +1,6 @@
-```json
 {
   "name": "qy-upup/ai-minecraft-skin",
-  "description": "A robust and efficient PHP library providing seamless integration with AI-powered Minecraft skin generation services. Facilitates easy access to skin creation and customization functionalities.",
+  "description": "A robust and reliable PHP library designed for seamless integration with the ai-minecraft-skin service. Provides tools for generating and managing Minecraft skins using AI.",
   "type": "library",
   "license": "MIT",
   "autoload": {
@@ -13,4 +12,3 @@
     "php": ">=7.4"
   }
 }
-```

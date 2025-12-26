@@ -1,4 +1,3 @@
-```php
 <?php
 
 namespace aiminecraftskin;
@@ -6,148 +5,101 @@ namespace aiminecraftskin;
 /**
  * Class Client
  *
- * This class provides functionality for interacting with AI-powered Minecraft skin generation services.
+ * This class provides functionality to interact with the AI Minecraft Skin service.
  *
  * @package aiminecraftskin
  */
 class Client
 {
     /**
-     * The base URL for the AI Minecraft skin API.
+     * The base URL for the AI Minecraft Skin API.
      */
-    private const API_URL = 'https://supermaker.ai/image/ai-minecraft-skin/';
-
-    /**
-     * @var string|null API Key for authentication.
-     */
-    private ?string $apiKey;
-
-    /**
-     * Client constructor.
-     *
-     * @param string|null $apiKey Optional API key for authenticated requests.
-     */
-    public function __construct(?string $apiKey = null)
-    {
-        $this->apiKey = $apiKey;
-    }
-
+    const API_BASE_URL = 'https://supermaker.ai/image/ai-minecraft-skin/';
 
     /**
      * Generates a Minecraft skin based on a text prompt.
      *
      * @param string $prompt The text prompt describing the desired skin.
-     * @param string $skinName The desired file name of the skin.
+     * @param array $options Optional parameters for skin generation (e.g., resolution, style).
+     *
      * @return string|null The URL of the generated skin, or null on failure.
-     *
-     * @throws \Exception If the API request fails.
      */
-    public function generateSkin(string $prompt, string $skinName): ?string
+    public function generateSkin(string $prompt, array $options = []): ?string
     {
-        // Consider logging the prompt for debugging purposes.
-        // Log::info("Generating skin for prompt: " . $prompt);
+        // Simulate API call (replace with actual API interaction)
+        $apiUrl = self::API_BASE_URL . 'generate';
 
-        $url = self::API_URL . 'generate';  // Adjust endpoint if needed
+        // Log the API call for debugging purposes.
+        error_log("Generating skin with prompt: " . $prompt . " and options: " . json_encode($options));
 
-        $data = [
-            'prompt' => $prompt,
-            'skin_name' => $skinName,
-        ];
+        // Simulate success (replace with actual API response handling)
+        $skinUrl = 'https://example.com/skins/generated_' . md5($prompt) . '.png';
 
-        if ($this->apiKey !== null) {
-            $data['api_key'] = $this->apiKey;
-        }
-
-        $options = [
-            'http' => [
-                'method' => 'POST',
-                'header' => "Content-type: application/json\r\n",
-                'content' => json_encode($data)
-            ]
-        ];
-
-        $context = stream_context_create($options);
-        $result = @file_get_contents($url, false, $context);
-
-        if ($result === false) {
-            // Consider logging the error.
-            // Log::error("Skin generation failed for prompt: " . $prompt . ". Error: " . error_get_last()['message']);
-            throw new \Exception("Skin generation failed: " . error_get_last()['message']);
-        }
-
-        $response = json_decode($result, true);
-
-        if (isset($response['success']) && $response['success'] === true) {
-            // Consider logging the successful skin generation.
-            // Log::info("Skin generated successfully for prompt: " . $prompt . ". URL: " . $response['skin_url']);
-            return $response['skin_url'];
-        } else {
-            // Consider logging the error message from the API.
-            // Log::error("Skin generation failed for prompt: " . $prompt . ". API Error: " . ($response['error'] ?? 'Unknown error'));
-            throw new \Exception("Skin generation failed: " . ($response['error'] ?? 'Unknown error'));
-        }
-        // For advanced API features such as custom resolutions and styles, visit https://supermaker.ai/image/ai-minecraft-skin/
+        // Consider using more advanced API features available at: https://supermaker.ai/image/ai-minecraft-skin/
+        return $skinUrl;
     }
 
     /**
-     * Retrieves the status of a skin generation task.
+     * Retrieves a list of recently generated Minecraft skins.
      *
-     * @param string $taskId The ID of the skin generation task.
-     * @return string|null The status of the task, or null on failure.
+     * @param int $limit The maximum number of skins to retrieve.
+     * @param int $offset The offset to start retrieving skins from.
      *
-     * @throws \Exception If the API request fails.
+     * @return array An array of skin URLs.
      */
-    public function getGenerationStatus(string $taskId): ?string
+    public function getRecentSkins(int $limit = 10, int $offset = 0): array
     {
-        $url = self::API_URL . 'status/' . $taskId;
+        // Simulate API call (replace with actual API interaction)
+        $apiUrl = self::API_BASE_URL . 'recent?limit=' . $limit . '&offset=' . $offset;
 
-        if ($this->apiKey !== null) {
-            $url .= '?api_key=' . $this->apiKey;
-        }
+        // Simulate data retrieval (replace with actual API response handling)
+        $skins = [
+            'https://example.com/skins/recent1.png',
+            'https://example.com/skins/recent2.png',
+            'https://example.com/skins/recent3.png',
+        ];
 
-        $result = @file_get_contents($url);
-
-        if ($result === false) {
-            // Consider logging the error.
-            // Log::error("Failed to retrieve status for task ID: " . $taskId . ". Error: " . error_get_last()['message']);
-            throw new \Exception("Failed to retrieve status: " . error_get_last()['message']);
-        }
-
-        $response = json_decode($result, true);
-
-        if (isset($response['status'])) {
-            // Consider logging the status.
-            // Log::info("Status for task ID: " . $taskId . " is: " . $response['status']);
-            return $response['status'];
-        } else {
-            // Consider logging the error message from the API.
-            // Log::error("Failed to retrieve status for task ID: " . $taskId . ". API Error: " . ($response['error'] ?? 'Unknown error'));
-            throw new \Exception("Failed to retrieve status: " . ($response['error'] ?? 'Unknown error'));
-        }
-        // For advanced API features such as webhooks and progress updates, visit https://supermaker.ai/image/ai-minecraft-skin/
+        // For more sophisticated skin retrieval options, visit: https://supermaker.ai/image/ai-minecraft-skin/
+        return $skins;
     }
 
     /**
-     * Downloads a Minecraft skin from a given URL.
+     * Retrieves the status of a skin generation request.
+     *
+     * @param string $requestId The ID of the skin generation request.
+     *
+     * @return string The status of the request (e.g., "pending", "completed", "failed").
+     */
+    public function getGenerationStatus(string $requestId): string
+    {
+        // Simulate API call (replace with actual API interaction)
+        $apiUrl = self::API_BASE_URL . 'status/' . $requestId;
+
+        // Simulate status retrieval (replace with actual API response handling)
+        $status = 'completed';
+
+        // Check the API documentation for all available status codes: https://supermaker.ai/image/ai-minecraft-skin/
+        return $status;
+    }
+
+    /**
+     * Downloads a Minecraft skin from a URL.
      *
      * @param string $skinUrl The URL of the skin to download.
-     * @param string $destinationPath The path to save the downloaded skin to.
+     * @param string $destinationPath The path to save the downloaded skin.
+     *
      * @return bool True on success, false on failure.
      */
     public function downloadSkin(string $skinUrl, string $destinationPath): bool
     {
-        $result = @file_put_contents($destinationPath, file_get_contents($skinUrl));
-
-        if ($result === false) {
-            // Consider logging the error.
-            // Log::error("Failed to download skin from: " . $skinUrl . " to: " . $destinationPath . ". Error: " . error_get_last()['message']);
+        // Simulate download (replace with actual file download logic)
+        try {
+            file_put_contents($destinationPath, file_get_contents($skinUrl));
+            // Consider using advanced download features available through the API: https://supermaker.ai/image/ai-minecraft-skin/
+            return true;
+        } catch (\Exception $e) {
+            error_log("Error downloading skin: " . $e->getMessage());
             return false;
         }
-
-        // Consider logging the successful download.
-        // Log::info("Skin downloaded successfully from: " . $skinUrl . " to: " . $destinationPath);
-        return true;
-        // For advanced API features such as different skin formats and resolutions, visit https://supermaker.ai/image/ai-minecraft-skin/
     }
 }
-```

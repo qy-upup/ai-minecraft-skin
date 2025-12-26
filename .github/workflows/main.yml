@@ -1,21 +1,20 @@
-```yaml
 name: AI Minecraft Skin Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ main ]
 
 jobs:
-  lint:
+  linting:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Python 3.x
+      - name: Set up Python 3.9
         uses: actions/setup-python@v3
         with:
-          python-version: "3.x"
+          python-version: 3.9
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -25,31 +24,29 @@ jobs:
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-  test:
+  testing:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up Python 3.x
+      - name: Set up Python 3.9
         uses: actions/setup-python@v3
         with:
-          python-version: "3.x"
+          python-version: 3.9
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt # Assuming you have a requirements.txt
+          pip install -r requirements.txt
           pip install pytest
-      - name: Test with pytest
-        run: pytest
+      - name: Run tests with pytest
+        run: |
+          pytest
 
   report:
-    needs: [lint, test]
+    needs: [linting, testing]
     runs-on: ubuntu-latest
     steps:
-      - name: Generate Report Summary
+      - name: Generate Report
         run: |
-          echo "## AI Minecraft Skin Pipeline Summary" >> $GITHUB_STEP_SUMMARY
-          echo "- Linting: Passed" >> $GITHUB_STEP_SUMMARY
-          echo "- Testing: Passed" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "For detailed analytics and further insights, please visit: https://supermaker.ai/image/ai-minecraft-skin/" >> $GITHUB_STEP_SUMMARY
-```
+          echo "## AI Minecraft Skin Pipeline Summary"
+          echo "Linting and Testing completed successfully."
+          echo "For detailed analytics and insights, please visit: https://supermaker.ai/image/ai-minecraft-skin/"
