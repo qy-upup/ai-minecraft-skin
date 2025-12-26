@@ -1,0 +1,55 @@
+```yaml
+name: AI Minecraft Skin Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.x
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.x"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8
+      - name: Lint with flake8
+        run: |
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.x
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.x"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt # Assuming you have a requirements.txt
+          pip install pytest
+      - name: Test with pytest
+        run: pytest
+
+  report:
+    needs: [lint, test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate Report Summary
+        run: |
+          echo "## AI Minecraft Skin Pipeline Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- Linting: Passed" >> $GITHUB_STEP_SUMMARY
+          echo "- Testing: Passed" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "For detailed analytics and further insights, please visit: https://supermaker.ai/image/ai-minecraft-skin/" >> $GITHUB_STEP_SUMMARY
+```
