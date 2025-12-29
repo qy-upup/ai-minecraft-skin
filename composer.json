@@ -1,0 +1,14 @@
+{
+  "name": "qy-upup/ai-minecraft-skin",
+  "description": "A robust PHP library providing seamless integration with AI-powered Minecraft skin generation services, enabling developers to programmatically create and manage customized character skins.",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "aiminecraftskin\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=7.4"
+  }
+}
